@@ -7,3 +7,9 @@
     justify-content: center;
     padding-top: 2rem;
 }
+.wcard{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-self: center;
+}
