@@ -105,7 +105,7 @@ const Home = () => {
         <Card w={"sm"} h={"auto"} textAlign={["center"]}>
           {isLoading ? (
             <Button
-            isLoading  colorScheme='teal' variant='solid'
+            isLoading h={"20"}  colorScheme='teal' variant='solid'
             >
             </Button>
           ) : null}
