@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import React from "react";
 import axios from "axios";
-import { Input, IconButton } from "@chakra-ui/react";
+import { Input, IconButton, Stack } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import "./home.css";
 import WeatherCard from "../Weather card/weather";
@@ -44,9 +44,20 @@ const Home = () => {
         </form>
       </div>
       <br />
-      <Card maxW='sm'>
-        <WeatherCard weatherData={weatherdata[0]} />
-      </Card>
+      <Stack
+        direction={"column"}
+        alignItems={"center"}
+        // p={"5"}
+      >
+
+        <Card w={"sm"}
+        h={"auto"}
+        textAlign={["center"]}
+
+        >
+          <WeatherCard weatherData={weatherdata[0]} />
+        </Card>
+      </Stack>
     </div>
   );
 };
