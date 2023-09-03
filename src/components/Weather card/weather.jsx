@@ -4,11 +4,17 @@ import {
 	Box,
 	Flex,
 	Heading,  
-	Text
+	Text,
+  Tooltip,
+  Image
 } from '@chakra-ui/react';
 import cardBackground from "../Assets/mountain.jpeg"
+import { getByTimestamp, getTimestampWeekDay } from '../timestamp';
+const getWeatherIcon = (icon) => `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
-const WeatherCard = ({ weatherdata }) => {
+
+
+const WeatherCard = ({ weatherData }) => {
     return (
     <Box
       backgroundImage={`${cardBackground}`}
@@ -38,41 +44,41 @@ const WeatherCard = ({ weatherdata }) => {
       >
         
         <Heading as={"h4"} fontSize={"xs"} fontWeight={"bold"}>
-          {"03"}
+          {getTimestampWeekDay(weatherData?.dt)}
         </Heading>
-        <Text>{"03"}</Text>
+        <Text>{getByTimestamp(weatherData?.dt)}</Text>
 
-        {/* {weather.weather[0] && (
-          <Tooltip hasArrow label={weather.weather[0].main} placement={"top"}>
+        {weatherData?.weather[0] && (
+          <Tooltip hasArrow label={weatherData.weather[0].main} placement={"top"}>
             <Image
               width={"80px"}
               filter={"drop-shadow(0 0 4px white)"}
-              src={getWeatherIcon(weather?.weather[0].icon)}
-              alt={weather?.weather[0].description}
+              src={getWeatherIcon(weatherData?.weather[0].icon)}
+              alt={weatherData?.weather[0].description}
             />
           </Tooltip>
-        )} */}
+        )}
 
         <Heading fontSize={"lg"}>
-          {"KARACHI"} {""}
+          {weatherData?.name} {""}
           <Text
             as={"sup"}
             fontSize={"xs"}
             fontWeight={"bold"}
-            backgroundColor={"secondary.500"}
+            backgroundColor={"burlywood"}
             color={"white"}
             px={2}
             borderRadius={10}
           >
-            {"PK"}
+            {weatherData?.sys?.country}
           </Text>
         </Heading>
-{/* 
-        {weather?.weather[0] && (
+
+        {weatherData?.weather[0] && (
           <Text fontSize={"md"}>
-            {capitalizeString(weather?.weather[0].description)}
+            {weatherData?.weather[0].description.toUpperCase()}
           </Text>
-        )} */}
+        )}
 
         <Flex
           justifyContent={"center"}
@@ -92,17 +98,17 @@ const WeatherCard = ({ weatherdata }) => {
         >
           <Box>
             <Text fontSize={"sm"}>Current Temp.</Text>
-            <Text fontWeight={"bold"}>{"41"} ºC</Text>
+            <Text fontWeight={"bold"}>{Math.round(weatherData?.main.temp)} ºC</Text>
           </Box>
           <Box>
             <Text fontSize={"sm"}>Feels Like</Text>
             <Text fontWeight={"bold"}>
-              {"38"} ºC
+              {Math.round(weatherData?.main.feels_like)} ºC
             </Text>
           </Box>
           <Box>
             <Text fontSize={"sm"}>Humidity</Text>
-            <Text fontWeight={"bold"}>{"10"}%</Text>
+            <Text fontWeight={"bold"}>{Math.round(weatherData?.main.humidity)}%</Text>
           </Box>
         </Flex>
       </Box>

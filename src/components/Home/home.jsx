@@ -1,36 +1,92 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import React from "react";
 import axios from "axios";
-import { Input, IconButton, Stack } from "@chakra-ui/react";
+import { Input, IconButton, Stack, Text, Button } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import "./home.css";
 import WeatherCard from "../Weather card/weather";
 import { Card } from "@chakra-ui/react";
+// import Nodata from "../Assets/search.gif"
 
 const Home = () => {
-  const [weatherdata, setWeatherdata] = useState([]);
+  const [weatherData, setWeatherData] = useState([]);
   const cityNameRef = useRef(null);
+
+  const [currentLocationWeather, setCurrentLocationWeather] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    const controller = new AbortController();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (location) => {
+        console.log("location: ", location);
+
+        try {
+          let API_KEY = "e0f99c494c2ce394a18cc2fd3f100543";
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${location.coords.latitude}&lon=${location.coords.longitude}&appid=${API_KEY}&units=metric`,
+            {
+              signal: controller.signal,
+            }
+          );
+          console.log(response.data);
+
+          setCurrentLocationWeather(response.data);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error.data);
+          setIsLoading(false);
+        }
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+
+    return () => {
+      // cleanup function
+      controller.abort();
+    };
+  }, []);
 
   const submithandler = async (e) => {
     e.preventDefault();
+    console.log("cityName: ", cityNameRef.current.value);
+
     let API_KEY = "e0f99c494c2ce394a18cc2fd3f100543";
     try {
+      setIsLoading(true);
+
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${cityNameRef.current.value}&appid=${API_KEY}&units=metric`
       );
       console.log(response.data);
-      setWeatherdata(response.data);
+      setWeatherData([response.data, ...weatherData]);
+      setIsLoading(false);
     } catch (error) {
-      console.log(error.data);
+      console.log(error?.data);
+      setIsLoading(false);
     }
   };
   return (
     <div>
       <div className="searchInput">
         <form onSubmit={submithandler}>
+          <Text
+            bgGradient="linear(to-l, #7928CA, #FF0080)"
+            bgClip="text"
+            fontSize="5xl"
+            fontWeight="extrabold"
+            justifyContent={"center"}
+            p={"2"}
+          >
+            Weather App
+          </Text>
           <Input
             variant="flushed"
-            htmlSize={30}
+            htmlSize={42}
             width="auto"
             ref={cityNameRef}
             required
@@ -38,24 +94,36 @@ const Home = () => {
           />
           <IconButton
             colorScheme="blue"
+            type="submit"
             aria-label="Search database"
             icon={<SearchIcon />}
           />
         </form>
       </div>
       <br />
-      <Stack
-        direction={"column"}
-        alignItems={"center"}
-        // p={"5"}
-      >
+      <Stack direction={"column"} alignItems={"center"}>
+        <Card w={"sm"} h={"auto"} textAlign={["center"]}>
+          {isLoading ? (
+            <Button
+            isLoading  colorScheme='teal' variant='solid'
+            >
+            </Button>
+          ) : null}
 
-        <Card w={"sm"}
-        h={"auto"}
-        textAlign={["center"]}
+          {weatherData.length || currentLocationWeather || isLoading ? null : (
+                        <Button
+                        isLoading h={"20"} colorScheme='teal' variant='solid'
+                        >
+                        </Button>
+          )}
 
-        >
-          <WeatherCard weatherData={weatherdata[0]} />
+          {weatherData.map((eachWeatherData, index) => {
+            return <WeatherCard key={index} weatherData={weatherData[0]} />;
+          })}
+
+          {currentLocationWeather ? (
+            <WeatherCard weatherData={currentLocationWeather} />
+          ) : null}
         </Card>
       </Stack>
     </div>
