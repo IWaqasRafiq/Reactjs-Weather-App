@@ -102,6 +102,7 @@ const Home = () => {
         </form>
       </div>
       <br />
+      <div>
       <Stack direction={"row"} p={"2"} justify={"center"} align={"center"}>
         <Card w={"sm"} h={"auto"} textAlign={["center"]}>
           {isLoading ? (
@@ -127,6 +128,7 @@ const Home = () => {
           ) : null}
         </Card>
       </Stack>
+        </div>
     </div>
   );
 };
