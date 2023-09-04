@@ -101,7 +101,7 @@ const Home = () => {
         </form>
       </div>
       <br />
-      <Stack direction={"column"} alignItems={"center"}>
+      <Stack direction={"row"} p={"2"} alignItems={"center"}>
         <Card w={"sm"} h={"auto"} textAlign={["center"]}>
           {isLoading ? (
             <Button
