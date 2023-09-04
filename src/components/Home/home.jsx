@@ -49,6 +49,7 @@ const Home = () => {
       // cleanup function
       controller.abort();
     };
+      console.log('i fire once');
   }, []);
 
   const submithandler = async (e) => {
