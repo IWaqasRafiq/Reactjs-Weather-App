@@ -119,7 +119,7 @@ const Home = () => {
           )}
 
           {weatherData.map((eachWeatherData, index) => {
-            return <WeatherCard key={index} weatherData={weatherData[0]} />;
+            return <WeatherCard key={index} weatherData={eachWeatherData} />;
           })}
 
           {currentLocationWeather ? (
