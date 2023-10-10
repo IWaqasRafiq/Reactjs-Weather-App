@@ -49,7 +49,7 @@ const Home = () => {
       // cleanup function
       controller.abort();
     };
-      console.log('i fire once');
+    console.log("i fire once");
   }, []);
 
   const submithandler = async (e) => {
@@ -66,6 +66,7 @@ const Home = () => {
       console.log(response.data);
       setWeatherData([response.data, ...weatherData]);
       setIsLoading(false);
+      e.target.reset();
     } catch (error) {
       console.log(error?.data);
       setIsLoading(false);
@@ -103,32 +104,46 @@ const Home = () => {
       </div>
       <br />
       <div>
-      <Stack direction={"row"} p={"2"} justify={"center"} align={"center"}>
-        <Card w={"sm"} h={"auto"} textAlign={["center"]}>
-          {isLoading ? (
-            <Button
-            isLoading h={"20"}  colorScheme='teal' variant='solid'
-            >
-            </Button>
-          ) : null}
+        <Stack direction={"row"} p={"2"} justify={"center"} align={"center"}>
+          <Card
+            w={{
+              base: "95%",
+              md: "60%",
+              xl: "35%",
+            }}
+            h={"auto"}
+            textAlign={["center"]}
+          >
+            {isLoading ? (
+              <Button
+                isLoading
+                h={"20"}
+                colorScheme="teal"
+                variant="solid"
+              ></Button>
+            ) : null}
 
-          {weatherData.length || currentLocationWeather || isLoading ? null : (
-                        <Button
-                        isLoading h={"20"} colorScheme='teal' variant='solid'
-                        >
-                        </Button>
-          )}
+            {weatherData.length ||
+            currentLocationWeather ||
+            isLoading ? null : (
+              <Button
+                isLoading
+                h={"20"}
+                colorScheme="teal"
+                variant="solid"
+              ></Button>
+            )}
 
-          {weatherData.map((eachWeatherData, index) => {
-            return <WeatherCard key={index} weatherData={eachWeatherData} />;
-          })}
+            {weatherData.map((eachWeatherData, index) => {
+              return <WeatherCard key={index} weatherData={eachWeatherData} />;
+            })}
 
-          {currentLocationWeather ? (
-            <WeatherCard weatherData={currentLocationWeather} />
-          ) : null}
-        </Card>
-      </Stack>
-        </div>
+            {currentLocationWeather ? (
+              <WeatherCard weatherData={currentLocationWeather} />
+            ) : null}
+          </Card>
+        </Stack>
+      </div>
     </div>
   );
 };

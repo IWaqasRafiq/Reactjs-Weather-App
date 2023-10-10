@@ -43,7 +43,7 @@ const WeatherCard = ({ weatherData }) => {
         textAlign={"center"}
       >
         
-        <Heading as={"h4"} fontSize={"xs"} fontWeight={"bold"}>
+        <Heading as={"h4"} fontSize={["sm", "xl"]} fontWeight={"bold"}>
           {getTimestampWeekDay(weatherData?.dt)}
         </Heading>
         <Text>{getByTimestamp(weatherData?.dt)}</Text>
@@ -51,7 +51,10 @@ const WeatherCard = ({ weatherData }) => {
         {weatherData?.weather[0] && (
           <Tooltip hasArrow label={weatherData.weather[0].main} placement={"top"}>
             <Image
-              width={"80px"}
+              width={{
+                base: "100px",
+                md: "180px",
+              }}
               filter={"drop-shadow(0 0 4px white)"}
               src={getWeatherIcon(weatherData?.weather[0].icon)}
               alt={weatherData?.weather[0].description}
@@ -59,11 +62,11 @@ const WeatherCard = ({ weatherData }) => {
           </Tooltip>
         )}
 
-        <Heading fontSize={"lg"}>
+        <Heading fontSize={["lg", "xl"]}>
           {weatherData?.name} {""}
           <Text
             as={"sup"}
-            fontSize={"xs"}
+            fontSize={["xs", "sm"]}
             fontWeight={"bold"}
             backgroundColor={"burlywood"}
             color={"white"}
@@ -84,7 +87,7 @@ const WeatherCard = ({ weatherData }) => {
           justifyContent={"center"}
           flexWrap={"wrap"}
           gap={[0, 0, 2]}
-          padding={2}
+          padding={3}
           w={"100%"}
           marginTop={4}
           borderRadius={"10px"}
@@ -92,22 +95,22 @@ const WeatherCard = ({ weatherData }) => {
           sx={{
             "& *": {
               textAlign: "center",
-              flex: ["0 1 50%", "0 1 50%", "auto"]
+              flex: ["0 1 30%", "0 1 50%", "auto"]
             }
           }}
         >
           <Box>
-            <Text fontSize={"sm"}>Current Temp.</Text>
+            <Text fontSize={["sm", "lg"]}>Current Temp.</Text>
             <Text fontWeight={"bold"}>{Math.round(weatherData?.main.temp)} ºC</Text>
           </Box>
           <Box>
-            <Text fontSize={"sm"}>Feels Like</Text>
+            <Text fontSize={["sm", "lg"]}>Feels Like</Text>
             <Text fontWeight={"bold"}>
               {Math.round(weatherData?.main.feels_like)} ºC
             </Text>
           </Box>
           <Box>
-            <Text fontSize={"sm"}>Humidity</Text>
+            <Text fontSize={["sm", "lg"]}>Humidity</Text>
             <Text fontWeight={"bold"}>{Math.round(weatherData?.main.humidity)}%</Text>
           </Box>
         </Flex>
