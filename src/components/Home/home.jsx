@@ -88,7 +88,7 @@ const Home = () => {
           </Text>
           <Input
             variant="flushed"
-            htmlSize={42}
+            htmlSize={35}
             width="auto"
             ref={cityNameRef}
             required
